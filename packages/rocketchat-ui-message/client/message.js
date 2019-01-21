@@ -192,6 +192,15 @@ Template.message.helpers({
 		// rendered as a special avatar
 		return (this.editedBy && this.editedBy.username) || '?';
 	},
+	editedByName() {
+		if (!Template.instance().wasEdited) {
+			return '';
+		}
+		// try to return the username of the editor,
+		// otherwise a special "?" character that will be
+		// rendered as a special avatar
+		return (this.editedBy && this.editedBy.name) || '?';
+	},
 	canEdit() {
 		const hasPermission = RocketChat.authz.hasAtLeastOnePermission('edit-message', this.rid);
 		const isEditAllowed = RocketChat.settings.get('Message_AllowEditing');
@@ -259,7 +268,7 @@ Template.message.helpers({
 		return true;
 	},
 	reactions() {
-		const userUsername = Meteor.user() && Meteor.user().username;
+		const userUsername = Meteor.user() && Meteor.user().name;
 		return Object.keys(this.reactions || {}).map((emoji) => {
 			const reaction = this.reactions[emoji];
 			const total = reaction.usernames.length;

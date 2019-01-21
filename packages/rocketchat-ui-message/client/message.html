@@ -41,7 +41,7 @@
 				</span>
 			{{/if}}
 			{{#if edited}}
-				<span class="edited" title='{{_ "edited"}} {{_ "at"}} {{editTime}} {{_ "by"}} {{editedBy}}'>
+				<span class="edited" title='{{_ "edited"}} {{_ "at"}} {{editTime}} {{_ "by"}} {{editedByName}}'>
 					<i class="icon-edit" aria-label="{{_ "Edited"}}"></i>
 					<button class="thumb thumb-small user-card-message" data-username="{{editedBy}}" tabindex="1">{{> avatar username=editedBy}}</button>
 				</span>

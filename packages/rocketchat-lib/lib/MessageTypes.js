@@ -28,7 +28,7 @@ Meteor.startup(function() {
 		data(message) {
 			return {
 				room_name: message.msg,
-				user_by: message.u.username,
+				user_by: message.u.name,
 			};
 		},
 	});
@@ -39,7 +39,7 @@ Meteor.startup(function() {
 		data(message) {
 			return {
 				user_added: message.msg,
-				user_by: message.u.username,
+				user_by: message.u.name,
 			};
 		},
 	});
@@ -50,7 +50,7 @@ Meteor.startup(function() {
 		data(message) {
 			return {
 				user_removed: message.msg,
-				user_by: message.u.username,
+				user_by: message.u.name,
 			};
 		},
 	});
@@ -60,7 +60,7 @@ Meteor.startup(function() {
 		message: 'User_left',
 		data(message) {
 			return {
-				user_left: message.u.username,
+				user_left: message.u.name,
 			};
 		},
 	});
@@ -70,7 +70,7 @@ Meteor.startup(function() {
 		message: 'User_joined_channel',
 		data(message) {
 			return {
-				user: message.u.username,
+				user: message.u.name,
 			};
 		},
 	});
@@ -80,7 +80,7 @@ Meteor.startup(function() {
 		message: 'Welcome',
 		data(message) {
 			return {
-				user: message.u.username,
+				user: message.u.name,
 			};
 		},
 	});
@@ -90,7 +90,7 @@ Meteor.startup(function() {
 		message: 'Message_removed',
 		data(message) {
 			return {
-				user: message.u.username,
+				user: message.u.name,
 			};
 		},
 	});
@@ -107,7 +107,7 @@ Meteor.startup(function() {
 		data(message) {
 			return {
 				user_muted: message.msg,
-				user_by: message.u.username,
+				user_by: message.u.name,
 			};
 		},
 	});
@@ -118,7 +118,7 @@ Meteor.startup(function() {
 		data(message) {
 			return {
 				user_unmuted: message.msg,
-				user_by: message.u.username,
+				user_by: message.u.name,
 			};
 		},
 	});
@@ -130,7 +130,7 @@ Meteor.startup(function() {
 			return {
 				username: message.msg,
 				role: message.role,
-				user_by: message.u.username,
+				user_by: message.u.name,
 			};
 		},
 	});
@@ -142,7 +142,7 @@ Meteor.startup(function() {
 			return {
 				username: message.msg,
 				role: message.role,
-				user_by: message.u.username,
+				user_by: message.u.name,
 			};
 		},
 	});
@@ -152,7 +152,7 @@ Meteor.startup(function() {
 		message: 'This_room_has_been_archived_by__username_',
 		data(message) {
 			return {
-				username: message.u.username,
+				username: message.u.name,
 			};
 		},
 	});
@@ -162,7 +162,7 @@ Meteor.startup(function() {
 		message: 'This_room_has_been_unarchived_by__username_',
 		data(message) {
 			return {
-				username: message.u.username,
+				username: message.u.name,
 			};
 		},
 	});
