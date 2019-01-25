@@ -88,7 +88,7 @@ Meteor.methods({
 				attachments: [
 					{
 						text: originalMessage.msg,
-						author_name: originalMessage.u.username,
+						author_name: originalMessage.u.name,
 						author_icon: getAvatarUrlFromUsername(
 							originalMessage.u.username
 						),
