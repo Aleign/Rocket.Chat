@@ -37,7 +37,7 @@ pipeline:
       event: push
       branch:
         - staging
-        - master
+        - aleign-master
   # rebuild-cache:
   #   image: drillster/drone-volume-cache
   #   rebuild: true
@@ -66,4 +66,4 @@ pipeline:
           event: push
           branch:
             - staging
-            - master
+            - aleign-master
