@@ -77,13 +77,45 @@ Meteor.methods({
 				result.rooms = fetchRooms(userId, RocketChat.models.Rooms.findByNameAndTypesNotInIds(regex, searchableRoomTypes, roomIds, roomOptions).fetch());
 			}
 		} else if (type.users === true && rid) {
+
 			const subscriptions = RocketChat.models.Subscriptions.find({
-				rid, 'u.username': {
-					$regex: regex,
-					$nin: [...usernames, Meteor.user().username],
-				},
+				rid: rid,
+				$or: [
+					{
+						'u.username': {
+							$regex: regex,
+							$nin: [...usernames, Meteor.user().username]
+						}
+					},
+					{
+						'u.name': {
+							$regex: regex
+						}
+					}
+				]
 			}, { limit: userOptions.limit }).fetch().map(({ u }) => u._id);
-			result.users = RocketChat.models.Users.find({ _id: { $in: subscriptions } }, {
+
+
+			const parent = RocketChat.models.Rooms.findById(rid).fetch().map(({ customFields }) => customFields.parent);
+
+			const parentSubscriptions = RocketChat.models.Subscriptions.find({
+				rid: { $in: parent },
+				$or: [
+					{
+						'u.username': {
+							$regex: regex,
+							$nin: [...usernames, Meteor.user().username]
+						}
+					},
+					{
+						'u.name': {
+							$regex: regex
+						}
+					}
+				]
+			}, { limit: userOptions.limit }).fetch().map(({ u }) => u._id);
+
+			result.users = RocketChat.models.Users.find({ _id: { $in: subscriptions.concat(parentSubscriptions) } }, {
 				fields: userOptions.fields,
 				sort: userOptions.sort,
 			}).fetch();

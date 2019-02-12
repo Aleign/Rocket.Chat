@@ -1,3 +1,4 @@
+
 /**
  * Send notification to user
  *
@@ -29,7 +30,9 @@ export function notifyDesktopUser({
 			sender: message.u,
 			type: room.t,
 			name: room.name,
+			customFields: room.customFields,
 			message: {
+				mentions: message.mentions,
 				msg: message.msg,
 				t: message.t,
 			},

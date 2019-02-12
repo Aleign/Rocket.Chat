@@ -45,7 +45,7 @@ export default class {
 			}
 			const name = this.useRealName && mentionObj && s.escapeHTML(mentionObj.name);
 
-			return `${ prefix }<a class="mention-link ${ username === me ? 'mention-link-me' : '' }" data-username="${ username }" title="${ name ? username : '' }">${ name || `@${ username }` }</a>`;
+			return `${ prefix }<a class="mention-link ${ username === me ? 'mention-link-me' : '' }" data-username="${ username }" title="${ name ? name : '' }">${ name || `@${ username }` }</a>`;
 		});
 	}
 	replaceChannels(str, message) {
