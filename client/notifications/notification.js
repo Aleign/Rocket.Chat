@@ -42,7 +42,7 @@ Meteor.startup(function() {
 				});
 
 				if (RocketChat.Layout.isEmbedded()) {
-					if (!hasFocus && messageIsInOpenedRoom) {
+					if (!hasFocus || !messageIsInOpenedRoom) {
 						// Play a sound and show a notification.
 						KonchatNotification.newMessage(notification.payload.rid);
 						KonchatNotification.showDesktop(notification);
@@ -67,7 +67,7 @@ Meteor.startup(function() {
 				const muteFocusedConversations = RocketChat.getUserPreference(Meteor.userId(), 'muteFocusedConversations');
 
 				if (RocketChat.Layout.isEmbedded()) {
-					if (!hasFocus && messageIsInOpenedRoom) {
+					if (!hasFocus || !messageIsInOpenedRoom || !muteFocusedConversations) {
 						// Play a notification sound
 						KonchatNotification.newMessage(notification.payload.rid);
 					}
