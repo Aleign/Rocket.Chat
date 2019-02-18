@@ -62,6 +62,16 @@ class ModelSubscriptions extends RocketChat.models._Base {
 		return this.find(query, options);
 	}
 
+	findUnreadByUserIdAndNotArchived(userId, options) {
+		const query = {
+			'u._id': userId,
+			archived: { $ne: true},
+			unread: { $gt: 0 }
+		};
+
+		return this.find(query, options);
+	}
+
 	findByUserIdAndType(userId, type, options) {
 		const query = {
 			'u._id': userId,

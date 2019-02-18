@@ -4,7 +4,7 @@ import { RocketChat } from 'meteor/rocketchat:lib';
 
 RocketChat.API.v1.addRoute('subscriptions.get', { authRequired: true }, {
 	get() {
-		const { updatedSince } = this.queryParams;
+		const { updatedSince, excludeArchived, unreadOnly } = this.queryParams;
 
 		let updatedSinceDate;
 		if (updatedSince) {
@@ -16,7 +16,7 @@ RocketChat.API.v1.addRoute('subscriptions.get', { authRequired: true }, {
 		}
 
 		let result;
-		Meteor.runAsUser(this.userId, () => result = Meteor.call('subscriptions/get', updatedSinceDate));
+		Meteor.runAsUser(this.userId, () => result = Meteor.call('subscriptions/get', updatedSinceDate, excludeArchived, unreadOnly));
 
 		if (Array.isArray(result)) {
 			result = {
@@ -81,5 +81,3 @@ RocketChat.API.v1.addRoute('subscriptions.unread', { authRequired: true }, {
 		return RocketChat.API.v1.success();
 	},
 });
-
-
