@@ -3,13 +3,19 @@ import { RocketChat } from 'meteor/rocketchat:lib';
 import _ from 'underscore';
 
 // Returns the private group subscription IF found otherwise it will return the failure of why it didn't. Check the `statusCode` property
-function findPrivateGroupByIdOrName({ params, userId, checkedArchived = true }) {
+function findPrivateGroupByIdOrName({ params, userId, checkedArchived = true, admin = false }) {
 	if ((!params.roomId || !params.roomId.trim()) && (!params.roomName || !params.roomName.trim())) {
 		throw new Meteor.Error('error-room-param-not-provided', 'The parameter "roomId" or "roomName" is required');
 	}
 
 	let roomSub;
 	if (params.roomId) {
+		//this fails for admin user
+		if (admin) {
+			return {
+				rid: params.roomId
+			};
+		}
 		roomSub = RocketChat.models.Subscriptions.findOneByRoomIdAndUserId(params.roomId, userId);
 	} else if (params.roomName) {
 		roomSub = RocketChat.models.Subscriptions.findOneByRoomNameAndUserId(params.roomName, userId);
@@ -495,7 +501,7 @@ RocketChat.API.v1.addRoute('groups.messages', { authRequired: true }, {
 		}).fetch();
 
 		return RocketChat.API.v1.success({
-			messages: messages.map((message) => RocketChat.composeMessageObjectWithUser(message, this.userId)),
+			messages: messages.map((message) => RocketChat.composeMessageObjectWithUser(message, this.userId, findResult)),
 			count: messages.length,
 			offset,
 			total: RocketChat.models.Messages.find(ourQuery).count(),
@@ -619,7 +625,7 @@ RocketChat.API.v1.addRoute('groups.setCustomFields', { authRequired: true }, {
 			return RocketChat.API.v1.failure('The bodyParam "customFields" is required with a type like object.');
 		}
 
-		const findResult = findPrivateGroupByIdOrName({ params: this.requestParams(), userId: this.userId });
+		const findResult = findPrivateGroupByIdOrName({ params: this.requestParams(), userId: this.userId, checkedArchived: true, admin: true });
 
 		Meteor.runAsUser(this.userId, () => {
 			Meteor.call('saveRoomSettings', findResult.rid, 'roomCustomFields', this.bodyParams.customFields);
@@ -782,4 +788,3 @@ RocketChat.API.v1.addRoute('groups.moderators', { authRequired: true }, {
 		});
 	},
 });
-
