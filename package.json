@@ -61,6 +61,7 @@
 	],
 	"scripts": {
 		"start": "MONGO_URL=mongodb://localhost:27017/rocketchat meteor run --port 3031",
+		"prod": "NODE_ENV=production PORT=3031 ROOT_URL=http://localhost:3031 MONGO_URL=mongodb://localhost:27017/rocketchat  node main.js",
 		"debug": "meteor run --inspect",
 		"debug-brk": "meteor run --inspect-brk",
 		"lint": "meteor npm run jslint && meteor npm run stylelint",
