@@ -201,6 +201,7 @@ RocketChat.integrations.triggerHandler = new class RocketChatIntegrationHandler 
 		}
 
 		message = processWebhookMessage(message, user, defaultValues);
+
 		return message;
 	}
 
@@ -405,11 +406,13 @@ RocketChat.integrations.triggerHandler = new class RocketChatIntegrationHandler 
 			case 'sendMessage':
 				data.channel_id = room._id;
 				data.channel_name = room.name;
+				data.channel_customFields = room.customFields;
 				data.message_id = message._id;
 				data.timestamp = message.ts;
 				data.user_id = message.u._id;
 				data.user_name = message.u.username;
 				data.text = message.msg;
+				data.mentions = message.mentions;
 
 				if (message.alias) {
 					data.alias = message.alias;
@@ -421,6 +424,10 @@ RocketChat.integrations.triggerHandler = new class RocketChatIntegrationHandler 
 
 				if (message.editedAt) {
 					data.isEdited = true;
+				}
+
+				if (message.metadata) {
+					data.metadata = message.metadata;
 				}
 				break;
 			case 'fileUploaded':
@@ -434,6 +441,7 @@ RocketChat.integrations.triggerHandler = new class RocketChatIntegrationHandler 
 				data.user = user;
 				data.room = room;
 				data.message = message;
+				data.mentions = message.mentions;
 
 				if (message.alias) {
 					data.alias = message.alias;
@@ -441,6 +449,9 @@ RocketChat.integrations.triggerHandler = new class RocketChatIntegrationHandler 
 
 				if (message.bot) {
 					data.bot = message.bot;
+				}
+				if (message.metadata) {
+					data.metadata = message.metadata;
 				}
 				break;
 			case 'roomCreated':
