@@ -88,6 +88,7 @@ RocketChat.sendMessage = function(user, message, room, upsert = false) {
 		emoji: String,
 		avatar: String,
 		attachments: [Match.Any],
+		metadata: Object
 	}));
 
 	if (Array.isArray(message.attachments) && message.attachments.length) {

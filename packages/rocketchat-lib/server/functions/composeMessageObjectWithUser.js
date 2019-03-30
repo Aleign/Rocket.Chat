@@ -1,6 +1,6 @@
 const getUser = (userId) => RocketChat.models.Users.findOneById(userId);
 
-RocketChat.composeMessageObjectWithUser = function(message, userId) {
+RocketChat.composeMessageObjectWithUser = function(message, userId, room) {
 	if (message) {
 		if (message.starred && Array.isArray(message.starred)) {
 			message.starred = message.starred.filter((star) => star._id === userId);
@@ -14,6 +14,9 @@ RocketChat.composeMessageObjectWithUser = function(message, userId) {
 				const user = getUser(mention._id);
 				mention.name = user && user.name;
 			});
+		}
+		if (room && room.customFields) {
+			message.room = { customFields: room.customFields };
 		}
 	}
 	return message;

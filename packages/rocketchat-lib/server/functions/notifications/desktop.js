@@ -35,6 +35,7 @@ export function notifyDesktopUser({
 				mentions: message.mentions,
 				msg: message.msg,
 				t: message.t,
+				metadata: message.metadata
 			},
 		},
 	});

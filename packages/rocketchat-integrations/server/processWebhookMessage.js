@@ -49,6 +49,7 @@ processWebhookMessage = function(messageObj, user, defaultValues = { channel: ''
 		}
 
 		const message = {
+			metadata: messageObj.metadata || null,
 			alias: messageObj.username || messageObj.alias || defaultValues.alias,
 			msg: s.trim(messageObj.text || messageObj.msg || ''),
 			attachments: messageObj.attachments || [],

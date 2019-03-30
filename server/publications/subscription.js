@@ -37,7 +37,7 @@ const fields = {
 };
 
 Meteor.methods({
-	'subscriptions/get'(updatedAt) {
+	'subscriptions/get'(updatedAt, excludeArchived, unreadOnly) {
 		if (!Meteor.userId()) {
 			return [];
 		}
@@ -46,7 +46,12 @@ Meteor.methods({
 
 		const options = { fields };
 
-		const records = RocketChat.models.Subscriptions.findByUserId(Meteor.userId(), options).fetch();
+		let records;
+		if (excludeArchived) {
+			records = RocketChat.models.Subscriptions.findUnreadByUserIdAndNotArchived(Meteor.userId(), options).fetch();
+		} else {
+			records = RocketChat.models.Subscriptions.findByUserId(Meteor.userId(), options).fetch();
+		}
 
 		if (updatedAt instanceof Date) {
 			return {
