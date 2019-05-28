@@ -28,6 +28,7 @@ Meteor.methods({
 				createdAt: new Date(),
 				lastTokenPart: token.slice(-6),
 				name: tokenName,
+				when: Accounts._tokenExpiration(new Date())
 			},
 		});
 		return token;
